@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_user")
@@ -24,6 +25,7 @@ public class User implements Serializable{
     private String fone;
     private String password;
     
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 
@@ -102,7 +104,4 @@ public class User implements Serializable{
         final User other = (User) obj;
         return Objects.equals(this.id, other.id);
     }
-    
-    
-    
 }
