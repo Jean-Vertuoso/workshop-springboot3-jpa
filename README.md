@@ -12,13 +12,18 @@ A aplicação também permite o cadastro, atualização e exclusão de usuários
 ## Modelo conceitual
 ![Modelo Conceitual](https://github.com/Jean-Vertuoso/workshop-springboot3-jpa/blob/main/domain-model.png)
 
-# Tecnologias utilizadas
+# Tecnologias e ferramentas utilizadas
+## Ferramentas
+- Java JDK (ver.21)
+- Apache Netbeans IDE
+- Postman
+
 ## Back end
-- Java
+- Java Persistente API do Java EE
+- Hibernate
 - Spring Boot
-- JPA / Hibernate
-- PostgreSQL
 - H2
+- PostgreSQL
 
 # Autor
 
