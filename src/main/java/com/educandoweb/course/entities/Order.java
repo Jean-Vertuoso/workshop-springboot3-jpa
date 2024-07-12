@@ -1,56 +1,46 @@
 package com.educandoweb.course.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.io.Serializable;
 import java.util.HashSet;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.List;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import com.educandoweb.course.entities.enums.OrderStatus;
 
 @Entity
 @Table(name = "tb_order")
-public class Order implements Serializable{
+public class Order{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant moment;
     
-    private Integer orderStatus;
+    private OrderStatus status;
     
     @ManyToOne
     @JoinColumn(name = "client_id")
     private User client;
+    
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payment payment;
 
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> items = new HashSet<>();
     
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
-    private Payment payment;
-    
     public Order() {}
 
-    public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
+    public Order(Long id, Instant moment, OrderStatus status, User client, Payment payment) {
         this.id = id;
         this.moment = moment;
-        setOrderStatus(orderStatus);
+        this.status = status;
         this.client = client;
+        this.payment = payment;
     }
 
     public Long getId() {
@@ -69,14 +59,12 @@ public class Order implements Serializable{
         this.moment = moment;
     }
 
-    public OrderStatus getOrderStatus() {
-        return OrderStatus.valueOf(orderStatus);
+    public OrderStatus getStatus() {
+        return status;
     }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
-        if(orderStatus != null){
-            this.orderStatus = orderStatus.getCode();
-        }
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 
     public User getClient() {
@@ -97,6 +85,10 @@ public class Order implements Serializable{
     
     public Set<OrderItem> getItems(){
         return items;
+    }
+    
+    public List<Product> getProducts(){
+        return items.stream().map(x -> x.getProduct()).toList();
     }
     
     public Double getTotal(){

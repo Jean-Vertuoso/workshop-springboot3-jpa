@@ -1,44 +1,48 @@
 package com.educandoweb.course.entities;
 
-import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_user")
-public class User implements Serializable{
+public class User{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    
+    @Column(unique = true)
     private String email;
     private String phone;
+    private LocalDate birthDate;
     private String password;
     
-    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 
-    public User() {}
+    public User() {
+    }
 
-    public User(Long id, String name, String email, String fone, String password) {
+    public User(Long id, String name, String email, String phone, LocalDate birthDate, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.phone = fone;
+        this.phone = phone;
+        this.birthDate = birthDate;
         this.password = password;
     }
-
+    
     public Long getId() {
         return id;
     }
@@ -69,6 +73,14 @@ public class User implements Serializable{
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getPassword() {

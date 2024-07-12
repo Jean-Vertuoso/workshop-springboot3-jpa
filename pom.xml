@@ -9,12 +9,12 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.educandoweb</groupId>
-    <artifactId>course</artifactId>
+    <artifactId>dscommerce</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>course</name>
+    <name>dscommerce</name>
     <description>Webservice com Spring Boot e JPA/Hibernate</description>
     <properties>
-        <java.version>21</java.version>
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>

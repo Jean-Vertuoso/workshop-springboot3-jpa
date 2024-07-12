@@ -1,11 +1,9 @@
 package com.educandoweb.course.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,19 +14,21 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_payment")
-public class Payment implements Serializable{
+public class Payment{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant moment;
     
-    @JsonIgnore
     @OneToOne
     @MapsId
     private Order order;
     
-    public Payment(){}
+    public Payment(){
+    }
 
     public Payment(Long id, Instant moment, Order order) {
         this.id = id;
