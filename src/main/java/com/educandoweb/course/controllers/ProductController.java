@@ -1,10 +1,9 @@
 package com.educandoweb.course.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 
 import com.educandoweb.course.dto.ProductDTO;
 import com.educandoweb.course.services.ProductService;
@@ -22,11 +21,10 @@ public class ProductController {
 //        return result.get().getName();
 //    }
     
-//    @GetMapping
-//    public ResponseEntity<List<Product>> findAll(){
-//        List<Product> list = service.findAll();
-//        return ResponseEntity.ok().body(list);
-//    }
+    @GetMapping
+    public Page<ProductDTO> findAll(Pageable pageable){
+        return service.findAll(pageable);
+    }
     
     @GetMapping(value = "/{id}")
     public ProductDTO findById(@PathVariable Long id){
