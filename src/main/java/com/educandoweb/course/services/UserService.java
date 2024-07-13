@@ -7,7 +7,6 @@ import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.educandoweb.course.entities.User;
@@ -28,21 +27,11 @@ public class UserService {
     public User findById(Long id){
         Optional<User> obj = repository.findById(id);
         
-        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+        return obj.orElseThrow(() -> new ResourceNotFoundException("ID não encontrado."));
     }
     
     public User insert(User obj){
         return repository.save(obj);
-    }
-    
-    public void delete(Long id){
-        try{
-            repository.deleteById(id);
-        } catch (EmptyResultDataAccessException e){
-            throw new ResourceNotFoundException(id);
-        }catch (DataIntegrityViolationException e){
-            throw new DatabaseException(e.getMessage());
-        }
     }
     
     public User update(Long id, User obj){
@@ -53,7 +42,19 @@ public class UserService {
         
         return repository.save(entity);
         } catch(EntityNotFoundException e){
-            throw new ResourceNotFoundException(id);
+            throw new ResourceNotFoundException("ID "+ id +" não encontrado. Não será possível atualizar os dados.");
+        }
+    }
+    
+    public void delete(Long id){
+        if (!repository.existsById(id)) {
+            throw new ResourceNotFoundException("ID solicitado não existe. Não será possível excluir.");
+        }
+        try{
+            repository.deleteById(id);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Falha de integridade referencial");
         }
     }
 
