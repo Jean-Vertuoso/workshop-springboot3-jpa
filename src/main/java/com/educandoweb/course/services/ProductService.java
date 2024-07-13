@@ -1,7 +1,5 @@
 package com.educandoweb.course.services;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,5 +28,19 @@ public class ProductService {
     public ProductDTO findById(Long id){
         Product product = repository.findById(id).get();        
         return new ProductDTO(product);
+    }
+    
+    //Recebendo DTO do produto cadastrado pelo frontend, salvando no banco de dados, e retornando a entidade produto convertido em DTO
+    @Transactional()
+    public ProductDTO insert(ProductDTO dto){
+        Product entity = new Product();        
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setPrice(dto.getPrice());
+        entity.setImgUrl(dto.getImgUrl());
+        
+        entity = repository.save(entity);
+        
+        return new ProductDTO(entity);
     }
 }
