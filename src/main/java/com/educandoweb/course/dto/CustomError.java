@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.Instant;
 
-public class CustomErrorDTO{
+// Classe responsável pela criação de um erro customizado na resposta da api
+public class CustomError{
     
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant timestamp;
@@ -13,7 +14,7 @@ public class CustomErrorDTO{
     private String message;
     private String path;
 
-    public CustomErrorDTO(Instant timestamp, Integer status, String error, String message, String path) {
+    public CustomError(Instant timestamp, Integer status, String error, String message, String path) {
         this.timestamp = timestamp;
         this.status = status;
         this.error = error;

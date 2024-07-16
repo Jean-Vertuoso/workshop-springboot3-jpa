@@ -1,15 +1,18 @@
 package com.educandoweb.course.controllers;
 
+import java.net.URI;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.educandoweb.course.dto.ProductDTO;
 import com.educandoweb.course.services.ProductService;
-import java.net.URI;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping(value = "/products")
@@ -34,7 +37,7 @@ public class ProductController {
     
     //Recebe o formulário preenchido no frontend, instancia em um ProductDTO e envia para o service realizar o create no banco de dados
     @PostMapping
-    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto){        
+    public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto){        
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
@@ -42,7 +45,7 @@ public class ProductController {
     }
     
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO dto){
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO dto){
         dto = service.update(id, dto);
         return ResponseEntity.ok(dto);
     }
