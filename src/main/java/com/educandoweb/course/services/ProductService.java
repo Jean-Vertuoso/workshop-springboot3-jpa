@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.educandoweb.course.dto.CategoryDTO;
 import com.educandoweb.course.dto.ProductDTO;
+import com.educandoweb.course.entities.Category;
 import com.educandoweb.course.entities.Product;
 import com.educandoweb.course.entities.ProductMinDTO;
 import com.educandoweb.course.repositories.ProductRepository;
@@ -77,5 +79,12 @@ public class ProductService {
 		entity.setDescription(dto.getDescription());
 		entity.setPrice(dto.getPrice());
 		entity.setImgUrl(dto.getImgUrl());
+		
+		entity.getCategories().clear();
+		for (CategoryDTO catDto : dto.getCategories()) {
+			Category cat = new Category();
+			cat.setId(catDto.getId());
+			entity.getCategories().add(cat);
+		}
 	}
 }
