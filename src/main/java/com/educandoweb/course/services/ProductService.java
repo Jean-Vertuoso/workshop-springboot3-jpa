@@ -14,7 +14,7 @@ import com.educandoweb.course.dto.CategoryDTO;
 import com.educandoweb.course.dto.ProductDTO;
 import com.educandoweb.course.entities.Category;
 import com.educandoweb.course.entities.Product;
-import com.educandoweb.course.entities.ProductMinDTO;
+import com.educandoweb.course.dto.ProductMinDTO;
 import com.educandoweb.course.repositories.ProductRepository;
 import com.educandoweb.course.services.exceptions.DatabaseException;
 import com.educandoweb.course.services.exceptions.ResourceNotFoundException;

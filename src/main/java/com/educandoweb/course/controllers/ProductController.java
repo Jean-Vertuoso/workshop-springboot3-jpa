@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.educandoweb.course.dto.ProductDTO;
-import com.educandoweb.course.entities.ProductMinDTO;
+import com.educandoweb.course.dto.ProductMinDTO;
 import com.educandoweb.course.services.ProductService;
 
 @RestController

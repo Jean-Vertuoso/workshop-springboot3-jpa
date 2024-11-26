@@ -1,5 +1,6 @@
-package com.educandoweb.course.entities;
+package com.educandoweb.course.dto;
 
+import com.educandoweb.course.entities.Product;
 import java.util.Objects;
 
 public class ProductMinDTO {
