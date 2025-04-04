@@ -1,12 +1,11 @@
 package com.educandoweb.course.dto;
 
+import com.educandoweb.course.entities.User;
+import org.springframework.security.core.GrantedAuthority;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.security.core.GrantedAuthority;
-
-import com.educandoweb.course.entities.User;
 
 public class UserDTO {
 	
@@ -15,11 +14,14 @@ public class UserDTO {
 	private String email;
 	private String phone;
 	private LocalDate birthDate;
-	private String password;
-	
 	private List<String> roles = new ArrayList<>();
 
-	public UserDTO() {
+	public UserDTO(Long id, String name, String email, String phone, LocalDate birthDate) {
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+		this.birthDate = birthDate;
 	}
 
 	public UserDTO(User entity) {
@@ -28,7 +30,6 @@ public class UserDTO {
 		email = entity.getEmail();
 		phone = entity.getPhone();
 		birthDate = entity.getBirthDate();
-		password = entity.getPassword();
 		for (GrantedAuthority role: entity.getRoles()) {
 			roles.add(role.getAuthority());
 		}
@@ -52,10 +53,6 @@ public class UserDTO {
 
 	public LocalDate getBirthDate() {
 		return birthDate;
-	}
-
-	public String getPassword() {
-		return password;
 	}
 
 	public List<String> getRoles() {

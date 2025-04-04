@@ -20,6 +20,10 @@ public class OrderItemPK{
     @JoinColumn(name = "product_id")
     private Product product;
 
+    public OrderItemPK(){
+
+    }
+
     public Order getOrder() {
         return order;
     }

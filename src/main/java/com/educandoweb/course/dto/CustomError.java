@@ -10,14 +10,12 @@ public class CustomError{
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant timestamp;
     private Integer status;
-    private String error;
     private String message;
     private String path;
 
-    public CustomError(Instant timestamp, Integer status, String error, String message, String path) {
+    public CustomError(Instant timestamp, Integer status, String message, String path) {
         this.timestamp = timestamp;
         this.status = status;
-        this.error = error;
         this.message = message;
         this.path = path;
     }
@@ -28,10 +26,6 @@ public class CustomError{
 
     public Integer getStatus() {
         return status;
-    }
-
-    public String getError() {
-        return error;
     }
 
     public String getMessage() {

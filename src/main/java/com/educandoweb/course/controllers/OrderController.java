@@ -22,12 +22,6 @@ public class OrderController {
 	@Autowired
 	private OrderService service;
 
-	@GetMapping
-	public ResponseEntity<List<Order>> findAll() {
-		List<Order> list = service.findAll();
-		return ResponseEntity.ok().body(list);
-	}
-
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<OrderDTO> findById(@PathVariable Long id) {

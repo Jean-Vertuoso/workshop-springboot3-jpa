@@ -25,14 +25,6 @@ public class ProductService {
 	@Autowired
 	private ProductRepository repository;
 
-	//Trás uma lista paginada dos produtos
-	@Transactional(readOnly = true)
-	public Page<ProductMinDTO> findAll(String name, Pageable pageable) {
-		Page<Product> result = repository.searchByName(name, pageable);
-		return result.map(x -> new ProductMinDTO(x));
-	}
-
-	//Trás um produto específico pelo seu ID
 	@Transactional(readOnly = true)
 	public ProductDTO findById(Long id) {
 		Product product = repository.findById(id).orElseThrow(
@@ -40,7 +32,12 @@ public class ProductService {
 		return new ProductDTO(product);
 	}
 
-	//Recebendo DTO do produto cadastrado pelo frontend, salvando no banco de dados, e retornando a entidade produto convertido em DTO
+	@Transactional(readOnly = true)
+	public Page<ProductMinDTO> findAll(String name, Pageable pageable) {
+		Page<Product> result = repository.searchByName(name, pageable);
+		return result.map(x -> new ProductMinDTO(x));
+	}
+
 	@Transactional()
 	public ProductDTO insert(ProductDTO dto) {
 		Product entity = new Product();
@@ -61,7 +58,6 @@ public class ProductService {
 		}
 	}
 
-	//Trás um produto específico pelo seu ID
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public void delete(Long id) {
 		if (!repository.existsById(id)) {

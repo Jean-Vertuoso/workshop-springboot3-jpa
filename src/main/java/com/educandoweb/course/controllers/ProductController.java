@@ -23,7 +23,12 @@ public class ProductController {
 	@Autowired
 	private ProductService service;
 
-	// Recebe a busca paginada do frontend de todos os produtos
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
+		ProductDTO dto = service.findById(id);
+		return ResponseEntity.ok(dto);
+	}
+
 	@GetMapping
 	public ResponseEntity<Page<ProductMinDTO>> findAll(
 			@RequestParam(name = "name", defaultValue = "") String name,
@@ -32,14 +37,6 @@ public class ProductController {
 		return ResponseEntity.ok(dto);
 	}
 
-	// Recebe o id do frontend e envia pro service fazer o read/retrieve no banco de dados pelo id
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
-		ProductDTO dto = service.findById(id);
-		return ResponseEntity.ok(dto);
-	}
-
-	//Recebe o formulário preenchido no frontend, instancia em um ProductDTO e envia para o service realizar o create no banco de dados
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@PostMapping
 	public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto) {

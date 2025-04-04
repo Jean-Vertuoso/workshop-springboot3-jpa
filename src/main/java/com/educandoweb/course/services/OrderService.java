@@ -1,44 +1,38 @@
 package com.educandoweb.course.services;
 
-import java.time.Instant;
-import java.util.List;
-
+import com.educandoweb.course.dto.OrderDTO;
+import com.educandoweb.course.dto.OrderItemDTO;
+import com.educandoweb.course.entities.Order;
 import com.educandoweb.course.entities.OrderItem;
+import com.educandoweb.course.entities.Product;
+import com.educandoweb.course.entities.enums.OrderStatus;
 import com.educandoweb.course.repositories.OrderItemRepository;
+import com.educandoweb.course.repositories.OrderRepository;
+import com.educandoweb.course.repositories.ProductRepository;
+import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.educandoweb.course.dto.OrderDTO;
-import com.educandoweb.course.dto.OrderItemDTO;
-import com.educandoweb.course.entities.enums.OrderStatus;
-import com.educandoweb.course.entities.Order;
-import com.educandoweb.course.entities.Product;
-import com.educandoweb.course.repositories.OrderRepository;
-import com.educandoweb.course.repositories.ProductRepository;
-import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
+import java.time.Instant;
 
 @Service
 public class OrderService {
 
 	@Autowired
-	private OrderItemRepository orderItemRepository;
+	private OrderRepository repository;
 
 	@Autowired
 	private ProductRepository productRepository;
 
 	@Autowired
-	private OrderRepository repository;
+	private OrderItemRepository orderItemRepository;
 
 	@Autowired
 	private UserService userService;
 
 	@Autowired
 	private AuthService authService;
-
-	public List<Order> findAll() {
-		return repository.findAll();
-	}
 
 	@Transactional(readOnly = true)
 	public OrderDTO findById(Long id) {
@@ -54,6 +48,7 @@ public class OrderService {
 
 		order.setMoment(Instant.now());
 		order.setStatus(OrderStatus.WAITING_PAYMENT);
+
 		order.setClient(userService.authenticated());
 
 		for (OrderItemDTO itemDto : dto.getItems()) {
