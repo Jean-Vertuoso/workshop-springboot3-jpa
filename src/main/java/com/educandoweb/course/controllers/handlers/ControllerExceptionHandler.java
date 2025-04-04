@@ -2,6 +2,7 @@ package com.educandoweb.course.controllers.handlers;
 
 import java.time.Instant;
 
+import com.educandoweb.course.services.exceptions.ForbiddenException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +49,16 @@ public class ControllerExceptionHandler {
             err.addError(f.getField(), f.getDefaultMessage());
         }
         
+        return ResponseEntity.status(status).body(err);
+    }
+
+    // Gerenciamento de exceções de consulta ou alterações no banco de dados
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<CustomError> forbidden(ForbiddenException e, HttpServletRequest request){
+        String error = "Erro: Não autorizado";
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        CustomError err = new CustomError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+
         return ResponseEntity.status(status).body(err);
     }
 }
